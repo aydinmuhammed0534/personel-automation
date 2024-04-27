@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PERSONELL": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\LENOVO\\source\\repos\\PERSONELL\\PERSONELL\\bin\\Debug\\net8.0-windows"
+    }
+  }
+}

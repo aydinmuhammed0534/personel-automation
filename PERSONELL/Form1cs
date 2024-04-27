@@ -1,0 +1,155 @@
+﻿using System.Data;
+using System.Globalization;
+namespace PERSONELL
+{
+    public partial class Form1 : Form2
+    {
+        public TextControl textControl;
+        DataTable tablo = new DataTable();
+
+
+
+
+        public Form1(TextControl textControl)
+        {
+            InitializeComponent();
+            this.textControl = textControl;
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        public Form1(string ad, string soyad, string tc,
+            string mail, string tur)
+        {
+            InitializeComponent();
+            tb_Ad.Text = ad;
+            tb_Soyad.Text = soyad;
+            tb_Tc.Text = tc;
+            tb_Mail.Text = mail;
+            comboBox2.Text = tur;
+        }
+
+        private void InitializeComponent()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Form1()
+        {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string isim = tb_Ad.Text;
+            string Soyisim = tb_Soyad.Text;
+            string Mail = tb_Mail.Text;
+            string Cinsiyet = "";
+            string Sehir = "";
+            string Tc = tb_Tc.Text;
+            string tarih = monthCalendar1.SelectionRange.Start.Date.ToShortDateString();
+            string Tur = "";
+            string dizinadresi = "C:\\Veri\\";
+
+            if (textControl.TCKontrol.isValidEmail(Mail))
+            {
+                MessageBox.Show("Geçersiz Mail");
+                return;
+            }
+
+            if (!tcontrol.isValidMobileNumber(Tc))
+            {
+                MessageBox.Show("11 haneli TC Giriniz ve Rakamlardan Oluşsun");
+                return;
+            }
+
+            #region Ifadeleri Kaydet
+            if (comboBox1.SelectedIndex > 0)
+            {
+                if (comboBox2.SelectedIndex > 0)
+                {
+                    if (isim != "" && tcontrol.YaziKontrol(isim))
+                    {
+                        if (Soyisim != "" && tcontrol.YaziKontrol(Soyisim))
+                        {
+                            if (Tc != "" && tcontrol.TCKontrol(Tc))
+                            {
+                                Sehir = comboBox1.GetItemText(comboBox1.SelectedItem.ToString());
+                                Tur = comboBox2.GetItemText(comboBox2.SelectedItem.ToString());
+
+                                if (radioButton1.Checked == true)
+                                    Cinsiyet = radioButton1.Text;
+                                else
+                                    Cinsiyet = radioButton2.Text;
+
+                                DateTimeFormatInfo tr = new CultureInfo("tr-TR", false).DateTimeFormat;
+                                string result = Convert.ToDateTime(monthCalendar1.SelectionStart.ToString()).ToString(tr);
+
+                                if (!Directory.Exists(dizinadresi))
+                                    Directory.CreateDirectory(dizinadresi);
+
+                                using StreamWriter Yaz = new StreamWriter(dizinadresi + "Yaz.txt", true);
+
+                                Yaz.Write("" + isim);
+                                Yaz.Write("," + Soyisim);
+                                Yaz.Write("," + Mail);
+                                Yaz.Write("," + Sehir);
+                                Yaz.Write("," + tarih);
+                                Yaz.Write("," + Tc);
+                                Yaz.Write("," + Cinsiyet);
+                                Yaz.Write("," + Tur);
+
+                                Yaz.WriteLine();
+                                Yaz.Close();
+
+                                MessageBox.Show("Başarıyla kaydedildi..");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Lütfen Doğru TC Giriniz veya boş bırakmayınız");
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Soyisminiz geçersiz karakter içeriyor veya boş bırakmayınız");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("İsminiz geçersiz karakter içeriyor veya boş bırakmayınız");
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Lütfen Seçim Yapınız");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Şehir Seçiniz..");
+            }
+            #endregion
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            TextControl textControl = new TextControl();
+            Form1 frm = new Form1(textControl);
+            frm.ShowDialog();
+        }
+
+        private void ShowDialog()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+
+
+
